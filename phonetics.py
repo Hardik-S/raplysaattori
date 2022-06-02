@@ -18,14 +18,14 @@ def is_vow(c, language='fi'):
     Is the given (lowercase) character a vowel or not.
     '''
     if language == 'fi': # Finnish
-        return c in u'aeiouyäöå'
+        return c in 'aeiouyäöå'
 
     elif len(language) >= 2 and language[:2] == 'en': # English
         # In order to increase recall for the rhyme detection, we 
         # ignore the schwa vowel '@' as it can be rhymed with several
         # different vowels. However, in BattleBot we do not ignore it
         # in order to get a higher precision.
-        return c in u'3L5aAeEiI0VuUoO'
+        return c in '3L5aAeEiI0VuUoO'
 
     else:
         raise Exception("Unknown language: %s" % language)
@@ -56,18 +56,18 @@ def is_space(c):
 
 def get_phonetic_transcription(text, language='en-us', output_fname=None):
     if output_fname is None:
-        fname2 = u'temp_transcription.txt'
+        fname2 = 'temp_transcription.txt'
     else:
         fname2 = output_fname
 
     if output_fname is None or not os.path.exists(fname2):
-        print "Transcribing: %s" % fname2
-        fname = u'temp_lyrics.txt'
+        print("Transcribing: %s" % fname2)
+        fname = 'temp_lyrics.txt'
         f = codecs.open(fname, 'w', 'utf8')
         f.write(text)
         f.close()
 
-        cmd = u'espeak -xq -v%s -f %s > %s' % (language, fname, fname2)
+        cmd = 'espeak -xq -v%s -f %s > %s' % (language, fname, fname2)
         os.system(cmd)
 
     f2 = codecs.open(fname2, 'r', 'utf8')
@@ -78,3 +78,4 @@ def get_phonetic_transcription(text, language='en-us', output_fname=None):
     new_text = re.sub("'", "", new_text)
     new_text = re.sub(",", "", new_text)
     return new_text
+
